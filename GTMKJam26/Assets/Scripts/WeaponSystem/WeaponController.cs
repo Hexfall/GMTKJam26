@@ -25,6 +25,7 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private Animator weaponAnimator;
     [SerializeField] private float fastReloadAnimationLength = 0.967f;
 
+    [SerializeField] private WeaponSFX weaponSFX;
 
     [Header("Visuals")]
     [SerializeField] private ProjectileVisual projectilePrefab;
@@ -176,7 +177,7 @@ public class WeaponController : MonoBehaviour
 
 
         PlayChargeAnimation();
-
+        weaponSFX.PlayReloadSound();
 
         Debug.Log(
             $"Charging: {currentChargeDuration}s"
@@ -212,8 +213,8 @@ public class WeaponController : MonoBehaviour
 
         remainingChargeTime = 0;
 
-
         PlayShootAnimation();
+        weaponSFX.PlayShootSound();
 
 
 
@@ -396,7 +397,7 @@ public class WeaponController : MonoBehaviour
 
 
         PlayFastReloadAnimation();
-
+        weaponSFX.PlayReloadSound();
 
 
         Debug.Log(
@@ -432,7 +433,6 @@ public class WeaponController : MonoBehaviour
         Debug.Log(
             "Fast reload complete. Shooting."
         );
-
 
         Fire();
     }
