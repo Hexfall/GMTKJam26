@@ -8,6 +8,9 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private float minimumChargeDuration = 0.25f;
     [SerializeField] private float chargeReductionFactor = 0.66f;
 
+    [Header("Opportunity Window")] [SerializeField]
+    private float opportunityWindowDuration = 1f;
+    
     [Header("Shooting")]
     [SerializeField] private Camera playerCamera;
     [SerializeField] private float shootDistance = 100f;
@@ -24,6 +27,10 @@ public class WeaponController : MonoBehaviour
 
     private bool isCharging;
     
+    private float remainingOpportunityTime;
+    private bool isOpportunityWindowActive;
+    private bool isOpportunityWindowPaused;
+    
     private bool previousFireState;
 
     // Public values for UI reticule
@@ -32,6 +39,25 @@ public class WeaponController : MonoBehaviour
     public float RemainingChargeTime => remainingChargeTime;
 
     public float CurrentChargeDuration => currentChargeDuration;
+    
+    public bool IsOpportunityWindowActive =>
+        isOpportunityWindowActive;
+
+
+    public bool IsOpportunityWindowPaused =>
+        isOpportunityWindowPaused;
+
+
+    public float RemainingOpportunityTime =>
+        remainingOpportunityTime;
+
+
+    public float OpportunityWindowDuration =>
+        opportunityWindowDuration;
+
+
+    public float OpportunityProgress =>
+        remainingOpportunityTime / opportunityWindowDuration;
 
     public float ChargeProgress =>
         1 - (remainingChargeTime / currentChargeDuration);
@@ -46,13 +72,14 @@ public class WeaponController : MonoBehaviour
     {
         UpdateCharge();
 
+        UpdateOpportunityWindow();
+
         if(input.firePressed)
         {
             TryStartCharge();
+
             input.firePressed = false;
         }
-        
-        previousFireState = input.fire;
     }
 
 
@@ -60,13 +87,19 @@ public class WeaponController : MonoBehaviour
     {
         if (isCharging)
             return;
-        
+
+
+        if(isOpportunityWindowActive)
+        {
+            isOpportunityWindowPaused = true;
+        }
+
+
         isCharging = true;
         remainingChargeTime = currentChargeDuration;
 
         Debug.Log($"Shot charging: {currentChargeDuration}s");
     }
-
 
     private void UpdateCharge()
     {
@@ -137,6 +170,10 @@ public class WeaponController : MonoBehaviour
             minimumChargeDuration
         );
 
+
+        StartOpportunityWindow();
+
+
         Debug.Log(
             $"New charge duration: {currentChargeDuration}"
         );
@@ -145,11 +182,9 @@ public class WeaponController : MonoBehaviour
 
     private void MissedShot()
     {
-        currentChargeDuration = initialChargeDuration;
+        ResetCombo();
 
-        Debug.Log(
-            "Charge reset"
-        );
+        Debug.Log("Miss. Combo lost.");
     }
 
 
@@ -168,5 +203,44 @@ public class WeaponController : MonoBehaviour
 
 
         projectile.Initialize(target);
+    }
+    
+    private void UpdateOpportunityWindow()
+    {
+        if(!isOpportunityWindowActive)
+            return;
+
+        if(isOpportunityWindowPaused)
+            return;
+
+
+        remainingOpportunityTime -= Time.deltaTime;
+
+
+        if(remainingOpportunityTime <= 0)
+        {
+            ResetCombo();
+        }
+    }
+    
+    private void StartOpportunityWindow()
+    {
+        remainingOpportunityTime = opportunityWindowDuration;
+
+        isOpportunityWindowActive = true;
+        isOpportunityWindowPaused = false;
+    }
+    
+    private void ResetCombo()
+    {
+        currentChargeDuration = initialChargeDuration;
+
+        remainingOpportunityTime = 0;
+
+        isOpportunityWindowActive = false;
+        isOpportunityWindowPaused = false;
+
+
+        Debug.Log("Combo expired. Charge reset.");
     }
 }

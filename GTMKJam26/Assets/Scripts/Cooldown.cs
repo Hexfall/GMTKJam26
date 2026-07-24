@@ -4,15 +4,35 @@ using UnityEngine.UI;
 public class Cooldown : MonoBehaviour
 {
     public WeaponController weaponController;
-    public Image dial;
-    
+    public Image chargeDial;
+    public Image opportunityDial;
+
+
     void Update()
     {
-        UpdateDial();
+        UpdateChargeDial();
+        UpdateOpportunityDial();
     }
 
-    void UpdateDial()
+
+    void UpdateChargeDial()
     {
-        dial.fillAmount = weaponController.IsCharging ? weaponController.ChargeProgress : 0.0f;
+        chargeDial.fillAmount =
+            weaponController.IsCharging
+                ? weaponController.ChargeProgress
+                : 0;
+    }
+
+
+    void UpdateOpportunityDial()
+    {
+        opportunityDial.gameObject.SetActive(
+            weaponController.IsOpportunityWindowActive &&
+            !weaponController.IsOpportunityWindowPaused
+        );
+
+
+        opportunityDial.fillAmount =
+            weaponController.OpportunityProgress;
     }
 }
