@@ -8,6 +8,7 @@ public class WeaponSFX : MonoBehaviour
 
     [Header("Audio Clips")]
     [SerializeField] private AudioClip reloadClip;
+    [SerializeField] private AudioClip fastReloadClip;
     [SerializeField] private AudioClip[] shootClips;
 
     [Header("Volume")]
@@ -37,6 +38,18 @@ public class WeaponSFX : MonoBehaviour
         // Replaces only the previous reload sound.
         reloadAudioSource.Stop();
         reloadAudioSource.clip = reloadClip;
+        reloadAudioSource.pitch = 1f;
+        reloadAudioSource.volume = reloadVolume;
+        reloadAudioSource.Play();
+    }
+
+    public void PlayFastReloadSound()
+    {
+        if (fastReloadClip == null)
+            return;
+
+        reloadAudioSource.Stop();
+        reloadAudioSource.clip = fastReloadClip;
         reloadAudioSource.pitch = 1f;
         reloadAudioSource.volume = reloadVolume;
         reloadAudioSource.Play();

@@ -493,12 +493,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponSFX
   reloadAudioSource: {fileID: 1108218844993169665}
   shootAudioSource: {fileID: 4429016488179491626}
-  reloadClip: {fileID: 8300000, guid: 2174ecddd11a06e45ae4c1e7af00e614, type: 3}
+  reloadClip: {fileID: 8300000, guid: b60fc766976f25a439685de0e6b2bea6, type: 3}
+  fastReloadClip: {fileID: 8300000, guid: 8f47dd6e8ae3ba547b6089c6fd1a8c5e, type: 3}
   shootClips:
-  - {fileID: 8300000, guid: 68d4fd7e50aa7b04ba08d154072438f5, type: 3}
-  - {fileID: 8300000, guid: bbb4ff44359b70742a051ddb7d4a8c4e, type: 3}
-  - {fileID: 8300000, guid: 4f5920d28bfcb4642a8e2362b3578912, type: 3}
-  - {fileID: 8300000, guid: a33b470c7a652954fa5332d41475dc6c, type: 3}
+  - {fileID: 8300000, guid: 9f2dd97a8cc371b47a68924c4303cbf6, type: 3}
+  - {fileID: 8300000, guid: 4b4788373686b1241a460ced5ddc6355, type: 3}
+  - {fileID: 8300000, guid: 9ca5b5c6ec2d85b41b9a1681d078cd72, type: 3}
+  - {fileID: 8300000, guid: b277b655cfd17ac43a9da12ed7717358, type: 3}
   reloadVolume: 0.754
   shootVolume: 1
   minimumShootPitch: 0.97
@@ -514,7 +515,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 2174ecddd11a06e45ae4c1e7af00e614, type: 3}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1

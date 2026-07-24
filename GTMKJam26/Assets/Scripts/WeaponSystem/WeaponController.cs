@@ -397,7 +397,7 @@ public class WeaponController : MonoBehaviour
 
 
         PlayFastReloadAnimation();
-        weaponSFX.PlayReloadSound();
+        weaponSFX.PlayFastReloadSound();
 
 
         Debug.Log(
