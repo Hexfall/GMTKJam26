@@ -19,6 +19,7 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private float sphereCastRadius = 0.05f;
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private StarterAssetsInputs input;
+    [SerializeField] private float coyoteTime = 0.15f;
 
 
     [Header("Animation")]
@@ -39,6 +40,8 @@ public class WeaponController : MonoBehaviour
     private float remainingOpportunityTime;
 
     private float fastReloadTimer;
+    
+    private float lastFireTry;
 
 
     private bool isCharging;
@@ -128,20 +131,25 @@ public class WeaponController : MonoBehaviour
     private void Start()
     {
         currentChargeDuration = initialChargeDuration;
+        lastFireTry = coyoteTime;
     }
 
 
 
     private void Update()
     {
+        lastFireTry += Time.deltaTime;
         UpdateCharge();
 
         UpdateOpportunityWindow();
 
         UpdateFastReload();
 
-
+        
         if(input.firePressed)
+            lastFireTry = 0;
+
+        if(lastFireTry <= coyoteTime)
         {
             TryStartCharge();
 
