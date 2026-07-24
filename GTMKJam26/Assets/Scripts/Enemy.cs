@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour
                     break;
                 case AgentStatus.Dead:
                     // TODO: Play death animation
-                    // TODO: Play death audio
+                    // AUDIO TODO: Play death audio
                     break;
                 default:
                     break;
