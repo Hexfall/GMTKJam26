@@ -12,9 +12,13 @@ namespace StarterAssets
 		public Vector2 look;
 		public bool jump;
 		public bool sprint;
+		public bool fire;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
+		
+		[Header("Projectile Settings")]
+		public bool firePressed;
 
 		[Header("Mouse Cursor Settings")]
 		public bool cursorLocked = true;
@@ -43,6 +47,14 @@ namespace StarterAssets
 		{
 			SprintInput(value.isPressed);
 		}
+
+		public void OnFire(InputValue value)
+		{
+			if(value.isPressed)
+			{
+				firePressed = true;
+			}
+		}
 #endif
 
 
@@ -64,6 +76,12 @@ namespace StarterAssets
 		public void SprintInput(bool newSprintState)
 		{
 			sprint = newSprintState;
+		}
+		
+		public void FireInput(bool newFireState)
+		{
+			fire = newFireState;
+			Debug.Log("Fire input: " + fire);
 		}
 		
 		private void OnApplicationFocus(bool hasFocus)
