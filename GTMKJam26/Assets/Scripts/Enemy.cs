@@ -30,13 +30,16 @@ public class Enemy : MonoBehaviour
                 case  AgentStatus.Attacking:
                     attackTime = 0.0f;
                     // TODO: Play Attack animation
+                    // AUDIO TODO: play start of attack audio
                     break;
                 case AgentStatus.Staggered:
                     staggeredTime = 0.0f;
                     // TODO: Play Stagger animation
+                    // AUDIO TODO: Play start of "take damage" audio
                     break;
                 case AgentStatus.Dead:
                     // TODO: Play death animation
+                    // TODO: Play death audio
                     break;
                 default:
                     break;
@@ -115,6 +118,7 @@ public class Enemy : MonoBehaviour
         Status = AgentStatus.Hunting;
         Debug.Log("Player was attacked");
         // TODO: Make player take damage.
+        // AUDIO TODO: Play attack landing audio
     }
 
     void Stagger()
