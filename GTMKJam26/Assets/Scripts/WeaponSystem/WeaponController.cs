@@ -8,134 +8,288 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private float minimumChargeDuration = 0.25f;
     [SerializeField] private float chargeReductionFactor = 0.66f;
 
+
+    [Header("Opportunity Window")]
+    [SerializeField] private float opportunityWindowDuration = 1f;
+
+
     [Header("Shooting")]
     [SerializeField] private Camera playerCamera;
     [SerializeField] private float shootDistance = 100f;
     [SerializeField] private float sphereCastRadius = 0.05f;
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private StarterAssetsInputs input;
-    
+
+
+    [Header("Animation")]
+    [SerializeField] private Animator weaponAnimator;
+    [SerializeField] private float fastReloadAnimationLength = 0.967f;
+
+
     [Header("Visuals")]
     [SerializeField] private ProjectileVisual projectilePrefab;
     [SerializeField] private Transform muzzlePoint;
 
+
+
     private float currentChargeDuration;
     private float remainingChargeTime;
 
-    private bool isCharging;
-    
-    private bool previousFireState;
+    private float remainingOpportunityTime;
 
-    // Public values for UI reticule
+    private float fastReloadTimer;
+
+
+    private bool isCharging;
+
+    private bool isOpportunityWindowActive;
+
+    private bool isOpportunityWindowPaused;
+
+    private bool isFastReloading;
+
+
+    // Prevents starting actions while weapon is already busy
+    private bool IsWeaponBusy =>
+        isCharging || isFastReloading;
+
+
+
+    private static readonly int ChargeTrigger =
+        Animator.StringToHash("Charge");
+
+    private static readonly int ShootTrigger =
+        Animator.StringToHash("Shoot");
+
+    private static readonly int MissTrigger =
+        Animator.StringToHash("Miss");
+
+    private static readonly int FastReloadTrigger =
+        Animator.StringToHash("FastReload");
+
+    private static readonly int ComboMissTrigger =
+        Animator.StringToHash("ComboMiss");
+
+    // ==========================
+    // UI VALUES
+    // ==========================
+
     public bool IsCharging => isCharging;
 
-    public float RemainingChargeTime => remainingChargeTime;
 
-    public float CurrentChargeDuration => currentChargeDuration;
+    public float RemainingChargeTime =>
+        remainingChargeTime;
+
+
+    public float CurrentChargeDuration =>
+        currentChargeDuration;
+
+
+    public bool IsOpportunityWindowActive =>
+        isOpportunityWindowActive;
+
+
+    public bool IsOpportunityWindowPaused =>
+        isOpportunityWindowPaused;
+
+
+    public float RemainingOpportunityTime =>
+        remainingOpportunityTime;
+
+
+    public float OpportunityWindowDuration =>
+        opportunityWindowDuration;
+
+
+    public float OpportunityProgress =>
+        opportunityWindowDuration > 0
+        ? remainingOpportunityTime / opportunityWindowDuration
+        : 0;
+
 
     public float ChargeProgress =>
-        1 - (remainingChargeTime / currentChargeDuration);
+        currentChargeDuration > 0
+        ? 1 - (remainingChargeTime / currentChargeDuration)
+        : 0;
+
+
+    public bool IsFastReloading =>
+        isFastReloading;
+
+
+    public float FastReloadProgress =>
+        fastReloadAnimationLength > 0
+        ? 1 - (fastReloadTimer / fastReloadAnimationLength)
+        : 0;
+
 
 
     private void Start()
     {
         currentChargeDuration = initialChargeDuration;
     }
-    
+
+
+
     private void Update()
     {
         UpdateCharge();
 
+        UpdateOpportunityWindow();
+
+        UpdateFastReload();
+
+
         if(input.firePressed)
         {
             TryStartCharge();
+
             input.firePressed = false;
         }
-        
-        previousFireState = input.fire;
     }
 
+
+
+    // ==========================
+    // CHARGE SYSTEM
+    // ==========================
 
     private void TryStartCharge()
     {
-        if (isCharging)
+        // Block input while charging or fast reloading
+        if(IsWeaponBusy)
             return;
-        
+
+
+        // If combo window is active,
+        // use fast reload instead
+        if(isOpportunityWindowActive)
+        {
+            StartFastReload();
+            return;
+        }
+
+
         isCharging = true;
+
         remainingChargeTime = currentChargeDuration;
 
-        Debug.Log($"Shot charging: {currentChargeDuration}s");
+
+        PlayChargeAnimation();
+
+
+        Debug.Log(
+            $"Charging: {currentChargeDuration}s"
+        );
     }
+
 
 
     private void UpdateCharge()
     {
-        if (!isCharging)
+        if(!isCharging)
             return;
 
 
         remainingChargeTime -= Time.deltaTime;
 
 
-        if (remainingChargeTime <= 0)
+        if(remainingChargeTime <= 0)
         {
             Fire();
         }
     }
 
 
+
+    // ==========================
+    // SHOOTING
+    // ==========================
+
     private void Fire()
     {
         isCharging = false;
+
         remainingChargeTime = 0;
-        
-        Ray ray = playerCamera.ViewportPointToRay(
-            new Vector3(0.5f, 0.5f)
-        );
 
 
-        bool hitSomething = Physics.SphereCast(
-            ray,
-            sphereCastRadius,
-            out RaycastHit hit,
-            shootDistance,
-            enemyLayer
-        );
+        PlayShootAnimation();
+
+
+
+        Ray ray =
+            playerCamera.ViewportPointToRay(
+                new Vector3(0.5f, 0.5f)
+            );
+
+
+
+        bool hitSomething =
+            Physics.SphereCast(
+                ray,
+                sphereCastRadius,
+                out RaycastHit hit,
+                shootDistance,
+                enemyLayer
+            );
+
 
 
         Vector3 targetPoint;
 
 
-        if (hitSomething)
+
+        if(hitSomething)
         {
             targetPoint = hit.point;
 
-            Debug.Log("Enemy hit: " + hit.collider.name);
+
+            Debug.Log(
+                "Enemy hit: " + hit.collider.name
+            );
+
 
             SuccessfulHit();
         }
         else
         {
-            targetPoint = ray.origin + ray.direction * shootDistance;
+            targetPoint =
+                ray.origin +
+                ray.direction *
+                shootDistance;
+
 
             Debug.Log("Miss");
 
+
+            PlayMissAnimation();
+
+
             MissedShot();
         }
+
 
 
         SpawnProjectileVisual(targetPoint);
     }
 
 
+
     private void SuccessfulHit()
     {
-        currentChargeDuration *= chargeReductionFactor;
+        currentChargeDuration *=
+            chargeReductionFactor;
 
-        currentChargeDuration = Mathf.Max(
-            currentChargeDuration,
-            minimumChargeDuration
-        );
+
+        currentChargeDuration =
+            Mathf.Max(
+                currentChargeDuration,
+                minimumChargeDuration
+            );
+
+
+        StartOpportunityWindow();
+
 
         Debug.Log(
             $"New charge duration: {currentChargeDuration}"
@@ -143,20 +297,203 @@ public class WeaponController : MonoBehaviour
     }
 
 
+
     private void MissedShot()
     {
-        currentChargeDuration = initialChargeDuration;
+        ResetCombo();
+
 
         Debug.Log(
-            "Charge reset"
+            "Miss. Combo lost."
         );
     }
 
 
+
+    // ==========================
+    // OPPORTUNITY WINDOW
+    // ==========================
+
+    private void StartOpportunityWindow()
+    {
+        remainingOpportunityTime =
+            opportunityWindowDuration;
+
+
+        isOpportunityWindowActive = true;
+
+        isOpportunityWindowPaused = false;
+    }
+
+
+
+    private void UpdateOpportunityWindow()
+    {
+        if(!isOpportunityWindowActive)
+            return;
+
+
+        if(isOpportunityWindowPaused)
+            return;
+
+
+
+        remainingOpportunityTime -= Time.deltaTime;
+
+
+
+        if(remainingOpportunityTime <= 0)
+        {
+            ResetCombo();
+        }
+    }
+
+
+
+    private void ResetCombo()
+    {
+        currentChargeDuration =
+            initialChargeDuration;
+
+
+        remainingOpportunityTime = 0;
+
+
+        isOpportunityWindowActive = false;
+
+        isOpportunityWindowPaused = false;
+
+
+        PlayComboMissAnimation();
+
+
+        Debug.Log(
+            "Combo reset"
+        );
+    }
+
+
+
+    // ==========================
+    // FAST RELOAD
+    // ==========================
+
+    private void StartFastReload()
+    {
+        if(isFastReloading)
+            return;
+
+
+        isOpportunityWindowActive = false;
+
+
+        fastReloadTimer =
+            fastReloadAnimationLength;
+
+
+        isFastReloading = true;
+
+
+
+        PlayFastReloadAnimation();
+
+
+
+        Debug.Log(
+            "Fast reload started"
+        );
+    }
+
+
+
+    private void UpdateFastReload()
+    {
+        if(!isFastReloading)
+            return;
+
+
+        fastReloadTimer -= Time.deltaTime;
+
+
+
+        if(fastReloadTimer <= 0)
+        {
+            CompleteFastReload();
+        }
+    }
+
+
+
+    private void CompleteFastReload()
+    {
+        isFastReloading = false;
+
+
+        Debug.Log(
+            "Fast reload complete. Shooting."
+        );
+
+
+        Fire();
+    }
+
+
+
+    // ==========================
+    // ANIMATIONS
+    // ==========================
+
+    private void PlayChargeAnimation()
+    {
+        weaponAnimator.SetTrigger(
+            ChargeTrigger
+        );
+    }
+
+
+
+    private void PlayShootAnimation()
+    {
+        weaponAnimator.SetTrigger(
+            ShootTrigger
+        );
+    }
+
+
+
+    private void PlayMissAnimation()
+    {
+        Debug.Log("MISS ANIMATION TRIGGERED");
+        weaponAnimator.SetTrigger(
+            MissTrigger
+        );
+    }
+
+
+
+    private void PlayFastReloadAnimation()
+    {
+        weaponAnimator.SetTrigger(
+            FastReloadTrigger
+        );
+    }
+
+    private void PlayComboMissAnimation()
+    {
+        weaponAnimator.SetTrigger(
+            ComboMissTrigger
+        );
+    }
+
+    // ==========================
+    // PROJECTILE VISUAL
+    // ==========================
+
     private void SpawnProjectileVisual(Vector3 target)
     {
-        if (projectilePrefab == null)
+        if(projectilePrefab == null)
             return;
+
 
 
         ProjectileVisual projectile =

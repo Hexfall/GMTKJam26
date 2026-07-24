@@ -35,7 +35,7 @@
 *.DotSettings.user
 
 # Visual Studio cache directory
-.vs/
+**/.vs/
 
 # Gradle cache directory
 .gradle/
@@ -104,3 +104,7 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+
+# IDE settings
+**/.vscode
+**/.idea
