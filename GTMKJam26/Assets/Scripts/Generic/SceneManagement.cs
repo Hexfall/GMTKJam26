@@ -28,8 +28,8 @@ public class SceneManagement : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
     
-    public static void LoadMainMenu()
+    public static void EndGame()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(SceneManager.sceneCountInBuildSettings - 1);
     }
 }
