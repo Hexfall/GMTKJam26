@@ -486,9 +486,9 @@ MonoBehaviour:
   minimumAirTime: 0.15
   minimumPitch: 0.95
   maximumPitch: 1.05
-  footstepVolume: 0.515
-  jumpVolume: 0.741
-  landingVolume: 0.756
+  footstepVolume: 0.2
+  jumpVolume: 0.4
+  landingVolume: 0.4
 --- !u!114 &4493493252206939765
 MonoBehaviour:
   m_ObjectHideFlags: 0
