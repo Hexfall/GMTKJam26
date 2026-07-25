@@ -1,5 +1,6 @@
 using UnityEngine;
 using StarterAssets;
+using Unity.Cinemachine;
 
 public class WeaponController : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private float sphereCastRadius = 0.05f;
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private StarterAssetsInputs input;
+    [SerializeField] private float coyoteTime = 0.15f;
 
 
     [Header("Animation")]
@@ -30,6 +32,8 @@ public class WeaponController : MonoBehaviour
     [Header("Visuals")]
     [SerializeField] private ProjectileVisual projectilePrefab;
     [SerializeField] private Transform muzzlePoint;
+    [SerializeField] private float initialImpulse = 0.1f;
+    [SerializeField] private float impulseMultiplier = 1.1f;
 
 
 
@@ -39,6 +43,8 @@ public class WeaponController : MonoBehaviour
     private float remainingOpportunityTime;
 
     private float fastReloadTimer;
+    
+    private float lastFireTry;
 
 
     private bool isCharging;
@@ -48,6 +54,10 @@ public class WeaponController : MonoBehaviour
     private bool isOpportunityWindowPaused;
 
     private bool isFastReloading;
+    
+    private CinemachineImpulseSource impulseSource;
+
+    private float impulseStrength;
 
 
     // Prevents starting actions while weapon is already busy
@@ -128,20 +138,27 @@ public class WeaponController : MonoBehaviour
     private void Start()
     {
         currentChargeDuration = initialChargeDuration;
+        lastFireTry = coyoteTime;
+        impulseSource = GetComponent<CinemachineImpulseSource>();
+        impulseStrength = initialImpulse;
     }
 
 
 
     private void Update()
     {
+        lastFireTry += Time.deltaTime;
         UpdateCharge();
 
         UpdateOpportunityWindow();
 
         UpdateFastReload();
 
-
+        
         if(input.firePressed)
+            lastFireTry = 0;
+
+        if(lastFireTry <= coyoteTime)
         {
             TryStartCharge();
 
@@ -215,6 +232,9 @@ public class WeaponController : MonoBehaviour
 
         PlayShootAnimation();
         weaponSFX.PlayShootSound();
+        
+        Vector2 impulseDirection = Random.insideUnitCircle.normalized;
+        impulseSource.GenerateImpulseWithVelocity(impulseDirection * impulseStrength);
 
 
 
@@ -287,6 +307,8 @@ public class WeaponController : MonoBehaviour
                 currentChargeDuration,
                 minimumChargeDuration
             );
+        
+        impulseStrength *= impulseMultiplier;
 
 
         StartOpportunityWindow();
@@ -362,6 +384,8 @@ public class WeaponController : MonoBehaviour
         isOpportunityWindowActive = false;
 
         isOpportunityWindowPaused = false;
+        
+        impulseStrength = initialImpulse;
 
 
         PlayComboMissAnimation();
@@ -492,9 +516,7 @@ public class WeaponController : MonoBehaviour
     {
         if(projectilePrefab == null)
             return;
-
-
-
+        
         ProjectileVisual projectile =
             Instantiate(
                 projectilePrefab,
