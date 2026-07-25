@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 1108218844993169665}
   - component: {fileID: 4429016488179491626}
   - component: {fileID: 2391452727292434908}
+  - component: {fileID: 2850576573704840980}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -337,6 +338,7 @@ MonoBehaviour:
     m_Bits: 8
   input: {fileID: 1701675617410822211}
   coyoteTime: 0.15
+  damage: 20
   weaponAnimator: {fileID: 1185494794991552705}
   fastReloadAnimationLength: 0.967
   weaponSFX: {fileID: 4493493252206939765}
@@ -755,6 +757,37 @@ MonoBehaviour:
     DissipationDistance: 100
     PropagationSpeed: 343
   DefaultVelocity: {x: 0.1, y: 0.1, z: 0}
+--- !u!114 &2850576573704840980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2169635771203676877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20254c5fdaa41f6429302eaa0aacd934, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Damageable
+  OnDamage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2391452727292434908}
+        m_TargetAssemblyTypeName: Unity.Cinemachine.CinemachineImpulseSource, Unity.Cinemachine
+        m_MethodName: GenerateImpulseWithForce
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 1
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  health: 100
 --- !u!1 &3749954350313725729
 GameObject:
   m_ObjectHideFlags: 0
