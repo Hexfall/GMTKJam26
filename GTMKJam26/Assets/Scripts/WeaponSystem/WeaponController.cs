@@ -323,11 +323,9 @@ public class WeaponController : MonoBehaviour
 
     private void MissedShot()
     {
-        ResetCombo();
-        
-        Debug.Log(
-            "Miss. Combo lost."
-        );
+        ResetCombo(false);
+
+        Debug.Log("Miss. Combo lost.");
     }
 
 
@@ -354,46 +352,35 @@ public class WeaponController : MonoBehaviour
         if(!isOpportunityWindowActive)
             return;
 
-
         if(isOpportunityWindowPaused)
             return;
 
-
-
         remainingOpportunityTime -= Time.deltaTime;
-
-
 
         if(remainingOpportunityTime <= 0)
         {
-            ResetCombo();
+            ResetCombo(true);
         }
     }
 
 
 
-    private void ResetCombo()
+    private void ResetCombo(bool playComboMissAnimation)
     {
         currentChargeDuration =
             initialChargeDuration;
 
-
         remainingOpportunityTime = 0;
 
-
         isOpportunityWindowActive = false;
-
         isOpportunityWindowPaused = false;
-        
-        impulseStrength = initialImpulse;
 
+        if(playComboMissAnimation)
+        {
+            PlayComboMissAnimation();
+        }
 
-        PlayComboMissAnimation();
-
-
-        Debug.Log(
-            "Combo reset"
-        );
+        Debug.Log("Combo reset");
     }
 
 
