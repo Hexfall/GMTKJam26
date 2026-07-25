@@ -8,5 +8,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Main Menu.unity
     guid: 517df6ba5958ec44c9fbf17e35ef08be
+  - enabled: 1
+    path: Assets/Scenes/FPSController.unity
+    guid: 3553f37381446494c8a9a0c0a5b1726c
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
