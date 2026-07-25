@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class Damageable : MonoBehaviour
 {
@@ -18,5 +19,10 @@ public class Damageable : MonoBehaviour
     private void Die()
     {
         OnDeath.Invoke();
+    }
+
+    public void PlayerDeath()
+    {
+        SceneManager.LoadScene(0);
     }
 }

@@ -340,6 +340,7 @@ MonoBehaviour:
   coyoteTime: 0.15
   damage: 20
   weaponAnimator: {fileID: 1185494794991552705}
+  fingerAnimator: {fileID: 0}
   fastReloadAnimationLength: 0.967
   weaponSFX: {fileID: 4493493252206939765}
   projectilePrefab: {fileID: 7552081544362083539}
@@ -786,7 +787,19 @@ MonoBehaviour:
         m_CallState: 2
   OnDeath:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2850576573704840980}
+        m_TargetAssemblyTypeName: Damageable, Assembly-CSharp
+        m_MethodName: PlayerDeath
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   health: 100
 --- !u!1 &3749954350313725729
 GameObject:
