@@ -55,7 +55,6 @@ public class Enemy : MonoBehaviour
     private NavMeshAgent agent;
 
     [Header("Defending")]
-    public float health = 100f;
     public float staggerDuration = 1f;
     private float staggeredTime = 0f;
     
@@ -130,12 +129,9 @@ public class Enemy : MonoBehaviour
         Status = AgentStatus.Hunting;
     }
 
-    public void Damage(float damage)
+    public void Damage()
     {
-        health -= damage;
-        if (health <= 0f)
-            Die();
-        else if (Status != AgentStatus.Attacking)
+        if (Status != AgentStatus.Attacking)
             Status = AgentStatus.Staggered;
     }
     
