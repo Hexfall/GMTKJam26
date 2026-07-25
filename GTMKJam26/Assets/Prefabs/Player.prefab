@@ -340,7 +340,7 @@ MonoBehaviour:
   coyoteTime: 0.15
   damage: 20
   weaponAnimator: {fileID: 1185494794991552705}
-  fingerAnimator: {fileID: 0}
+  fingerAnimator: {fileID: 1046880647672749533}
   fastReloadAnimationLength: 0.967
   weaponSFX: {fileID: 4493493252206939765}
   projectilePrefab: {fileID: 7552081544362083539}
@@ -1248,7 +1248,37 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5994675587922709979, guid: ecfd6e1d2c2dc014989a78cd20fa2abd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1185494794991552705}
+    - targetCorrespondingSourceObject: {fileID: 6594405845913351654, guid: ecfd6e1d2c2dc014989a78cd20fa2abd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1046880647672749533}
   m_SourcePrefab: {fileID: 100100000, guid: ecfd6e1d2c2dc014989a78cd20fa2abd, type: 3}
+--- !u!1 &7248555380455490751 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6594405845913351654, guid: ecfd6e1d2c2dc014989a78cd20fa2abd, type: 3}
+  m_PrefabInstance: {fileID: 4547513689412432217}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1046880647672749533
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7248555380455490751}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ed857081d67fb4d7581f8e21f6e99cd8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &7450799418892215864 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6375563267517355873, guid: ecfd6e1d2c2dc014989a78cd20fa2abd, type: 3}
