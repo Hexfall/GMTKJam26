@@ -25,7 +25,7 @@ public class Damageable : MonoBehaviour
     {
         GetComponent<PlayerSFX>()?.PlayDeathSound();
         MusicManager.StopMusic();
-        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         SceneManager.LoadScene(0);
     }
 }
