@@ -24,6 +24,7 @@ public class Enemy : MonoBehaviour
             if (_status == value)
                 return;
 
+            AgentStatus previousStatus = _status;
             _status = value;
 
             if (animator != null)
@@ -35,17 +36,19 @@ public class Enemy : MonoBehaviour
                     break;
                 case AgentStatus.Hunting:
                     ResumeMoving();
+                    if (previousStatus == AgentStatus.Idle)
+                        enemySFX?.PlayAlertSound();
                     break;
                 case  AgentStatus.Attacking:
                     attackTime = 0.0f;
-                    // AUDIO TODO: play start of attack audio
+                    enemySFX?.PlayAttackSound();
                     break;
                 case AgentStatus.Staggered:
                     staggeredTime = 0.0f;
                     // AUDIO TODO: Play start of "take damage" audio
                     break;
                 case AgentStatus.Dead:
-                    // AUDIO TODO: Play death audio
+                    enemySFX?.PlayDeathSound();
                     break;
                 default:
                     break;
@@ -60,6 +63,8 @@ public class Enemy : MonoBehaviour
 
     [Header("Animation")]
     [SerializeField] private Animator animator;
+
+    private EnemySFX enemySFX;
     
     [Header("Hunting")]
     private GameObject player;
@@ -76,6 +81,11 @@ public class Enemy : MonoBehaviour
 
     private float attackRangeSqr = 25f;
     private float attackTime = 0f;
+
+    private void Awake()
+    {
+        enemySFX = GetComponent<EnemySFX>();
+    }
     
     void Start()
     {
@@ -136,8 +146,10 @@ public class Enemy : MonoBehaviour
         Debug.Log("Player was attacked");
         var dmg = player.GetComponent<Damageable>();
         if (dmg != null)
+        {
+            enemySFX?.PlayAttackHitPlayerSound(player.transform.position);
             dmg.Damage(damageDealt);
-        // AUDIO TODO: Play attack landing audio
+        }
     }
 
     void Stagger()
@@ -153,6 +165,8 @@ public class Enemy : MonoBehaviour
     {
         if (Status == AgentStatus.Dead)
             return;
+
+        enemySFX?.PlayPainSound();
 
         if (Status != AgentStatus.Attacking)
             Status = AgentStatus.Staggered;
