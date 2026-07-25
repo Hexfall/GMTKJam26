@@ -55,15 +55,15 @@ public class Enemy : MonoBehaviour
     private NavMeshAgent agent;
 
     [Header("Defending")]
-    public float health = 100f;
-    public float staggerDuration = 1f;
+    [SerializeField][Range(0, 5)] private float staggerDuration = 1f;
     private float staggeredTime = 0f;
     
     [Header("Attacking")]
-    public float attackRange = 5f;
+    [SerializeField][Range(0, 10)] private float attackRange = 5f;
+    [SerializeField][Range(0, 100)] private float damageDealt = 20f;
+    [SerializeField][Range(0, 5)] private float attackDuration = 2f;
 
     private float attackRangeSqr = 25f;
-    public float attackDuration = 2f;
     private float attackTime = 0f;
     
     void Start()
@@ -117,7 +117,9 @@ public class Enemy : MonoBehaviour
         
         Status = AgentStatus.Hunting;
         Debug.Log("Player was attacked");
-        // TODO: Make player take damage.
+        var dmg = player.GetComponent<Damageable>();
+        if (dmg != null)
+            dmg.Damage(damageDealt);
         // AUDIO TODO: Play attack landing audio
     }
 
@@ -130,12 +132,9 @@ public class Enemy : MonoBehaviour
         Status = AgentStatus.Hunting;
     }
 
-    public void Damage(float damage)
+    public void Damage()
     {
-        health -= damage;
-        if (health <= 0f)
-            Die();
-        else if (Status != AgentStatus.Attacking)
+        if (Status != AgentStatus.Attacking)
             Status = AgentStatus.Staggered;
     }
     
