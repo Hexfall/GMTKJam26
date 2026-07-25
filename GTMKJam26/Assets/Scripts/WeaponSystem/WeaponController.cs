@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using StarterAssets;
 using Unity.Cinemachine;
 
@@ -18,7 +19,8 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private Camera playerCamera;
     [SerializeField] private float shootDistance = 100f;
     [SerializeField] private float sphereCastRadius = 0.05f;
-    [SerializeField] private LayerMask enemyLayer;
+    [FormerlySerializedAs("enemyLayer")]
+    [SerializeField] private LayerMask hittableLayers;
     [SerializeField] private StarterAssetsInputs input;
     [SerializeField] private float coyoteTime = 0.15f;
     [SerializeField] private float damage = 20f;
@@ -270,7 +272,7 @@ public class WeaponController : MonoBehaviour
                 sphereCastRadius,
                 out RaycastHit hit,
                 shootDistance,
-                enemyLayer
+                hittableLayers
             );
 
 
@@ -298,9 +300,18 @@ public class WeaponController : MonoBehaviour
 
 
             Debug.Log(
-                "Enemy hit: " + hit.collider.name
+                "Shot hit: " + hit.collider.name
             );
 
+            ShootableInteractable interactable =
+                hit.collider.GetComponentInParent<
+                    ShootableInteractable
+                >();
+
+            if(interactable != null)
+            {
+                interactable.Trigger();
+            }
 
             SuccessfulHit(hit.collider.gameObject);
         }
