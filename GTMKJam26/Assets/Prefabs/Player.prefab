@@ -275,6 +275,8 @@ MonoBehaviour:
   chargeFingers: {fileID: 7248555380455490751}
   initialImpulse: 0.3
   impulseMultiplier: 1.1
+  maxImpulse: 0.8
+  impulseStrength: 0
 --- !u!82 &-7096953104165895114
 AudioSource:
   m_ObjectHideFlags: 0

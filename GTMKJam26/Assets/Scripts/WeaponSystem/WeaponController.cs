@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 using StarterAssets;
 using Unity.Cinemachine;
+using Random = UnityEngine.Random;
 
 public class WeaponController : MonoBehaviour
 {
@@ -39,6 +41,7 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private GameObject chargeFingers;
     [SerializeField] private float initialImpulse = 0.1f;
     [SerializeField] private float impulseMultiplier = 1.1f;
+    [SerializeField] private float maxImpulse = 1.2f;
 
 
 
@@ -354,7 +357,7 @@ public class WeaponController : MonoBehaviour
                 minimumChargeDuration
             );
         
-        impulseStrength *= impulseMultiplier;
+        impulseStrength = Math.Min(impulseStrength*impulseMultiplier, maxImpulse);
 
 
         StartOpportunityWindow();
@@ -419,6 +422,7 @@ public class WeaponController : MonoBehaviour
     {
         currentChargeDuration =
             initialChargeDuration;
+        impulseStrength = initialImpulse;
 
         remainingOpportunityTime = 0;
 
