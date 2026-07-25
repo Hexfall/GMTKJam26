@@ -21,6 +21,7 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private StarterAssetsInputs input;
     [SerializeField] private float coyoteTime = 0.15f;
+    [SerializeField] private float damage = 20f;
 
 
     [Header("Animation")]
@@ -270,7 +271,7 @@ public class WeaponController : MonoBehaviour
             );
 
 
-            SuccessfulHit();
+            SuccessfulHit(hit.collider.gameObject);
         }
         else
         {
@@ -296,7 +297,7 @@ public class WeaponController : MonoBehaviour
 
 
 
-    private void SuccessfulHit()
+    private void SuccessfulHit(GameObject other)
     {
         currentChargeDuration *=
             chargeReductionFactor;
@@ -312,6 +313,10 @@ public class WeaponController : MonoBehaviour
 
 
         StartOpportunityWindow();
+        
+        var dmg = other.GetComponentInParent<Damageable>();
+        if (dmg != null)
+            dmg.Damage(damage);
 
 
         Debug.Log(
