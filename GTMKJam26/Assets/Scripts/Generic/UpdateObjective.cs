@@ -4,15 +4,15 @@ using UnityEngine;
 public class UpdateObjective : MonoBehaviour
 {
     [SerializeField][TextArea(2,20)] private string objective;
-    private TextMeshProUGUI  objectiveText;
+    private ObjectiveTracker  objectiveText;
 
     private void Start()
     {
-        objectiveText = GameObject.FindGameObjectWithTag("ObjectiveTracker").GetComponentInChildren<TextMeshProUGUI>();
+        objectiveText = GameObject.FindGameObjectWithTag("ObjectiveTracker").GetComponentInChildren<ObjectiveTracker>();
     }
 
     public void Trigger()
     {
-        objectiveText.text = objective;
+        objectiveText.Text = objective;
     }
 }

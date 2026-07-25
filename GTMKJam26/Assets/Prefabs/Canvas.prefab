@@ -116,6 +116,7 @@ GameObject:
   - component: {fileID: 206317631601069491}
   - component: {fileID: 2307334076058937861}
   - component: {fileID: 7528397724023055294}
+  - component: {fileID: 5898967327686601646}
   m_Layer: 5
   m_Name: ObjectiveTracker
   m_TagString: ObjectiveTracker
@@ -139,8 +140,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 150, y: -50}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 250, y: -50}
+  m_SizeDelta: {x: 400, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2307334076058937861
 CanvasRenderer:
@@ -242,6 +243,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5898967327686601646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7374116442170904436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d59b7d4e44c7a3a4d946d1e317d06883, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  typewriterTime: 0.035
 --- !u!1001 &3052893870064276092
 PrefabInstance:
   m_ObjectHideFlags: 0
