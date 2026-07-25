@@ -26,6 +26,7 @@ public class WeaponController : MonoBehaviour
 
     [Header("Animation")]
     [SerializeField] private Animator weaponAnimator;
+    [SerializeField] private Animator fingerAnimator;
     [SerializeField] private float fastReloadAnimationLength = 0.967f;
 
     [SerializeField] private WeaponSFX weaponSFX;
@@ -452,56 +453,51 @@ public class WeaponController : MonoBehaviour
         Fire();
     }
 
-
+    
+    
 
     // ==========================
     // ANIMATIONS
     // ==========================
+    
+    private void SetAnimationTrigger(int trigger)
+    {
+        weaponAnimator.SetTrigger(trigger);
 
+        if(fingerAnimator != null)
+        {
+            fingerAnimator.SetTrigger(trigger);
+        }
+    }
+    
     private void PlayChargeAnimation()
     {
-        weaponAnimator.SetTrigger(
-            ChargeTrigger
-        );
+        SetAnimationTrigger(ChargeTrigger);
     }
-
-
 
     private void PlayShootAnimation()
     {
-        weaponAnimator.SetTrigger(
-            ShootTrigger
-        );
+        SetAnimationTrigger(ShootTrigger);
     }
-
-
 
     private void PlayMissAnimation()
     {
         Debug.Log("MISS ANIMATION TRIGGERED");
-        weaponAnimator.SetTrigger(
-            MissTrigger
-        );
+        SetAnimationTrigger(MissTrigger);
     }
-
-
 
     private void PlayFastReloadAnimation()
     {
-        weaponAnimator.SetTrigger(
-            FastReloadTrigger
-        );
+        SetAnimationTrigger(FastReloadTrigger);
     }
 
     private void PlayComboMissAnimation()
     {
-        weaponAnimator.SetTrigger(
-            ComboMissTrigger
-        );
+        SetAnimationTrigger(ComboMissTrigger);
     }
 
     // ==========================
-    // PROJECTILE VISUAL
+    // PROJECTILE VISUAL (might be deleted)
     // ==========================
 
     private void SpawnProjectileVisual(Vector3 target)
