@@ -286,12 +286,14 @@ public class WeaponController : MonoBehaviour
             targetPoint = hit.point;
             hitNormal = hit.normal;
 
-            Damageable damageable =
-                hit.collider.GetComponentInParent<Damageable>();
+            ProjectileAttachmentTarget attachmentOverride =
+                hit.collider.GetComponent<
+                    ProjectileAttachmentTarget
+                >();
 
             attachmentTarget =
-                damageable != null
-                ? damageable.transform
+                attachmentOverride != null
+                ? attachmentOverride.Target
                 : hit.collider.transform;
 
 
@@ -327,7 +329,6 @@ public class WeaponController : MonoBehaviour
             hitNormal
         );
     }
-
 
 
     private void SuccessfulHit(GameObject other)

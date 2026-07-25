@@ -11,6 +11,7 @@ public class ProjectileVisual : MonoBehaviour
     [SerializeField] private float speed = 40f;
     [SerializeField] private float arrivalDistance = 0.05f;
     [SerializeField] private float surfaceOffset = 0.01f;
+    [SerializeField] private Transform impactPoint;
     [SerializeField] private Vector3 flightRotationOffset;
     [SerializeField] private Vector3 stuckRotationOffset;
 
@@ -57,15 +58,22 @@ public class ProjectileVisual : MonoBehaviour
 
         FaceTarget(currentTarget);
 
-        transform.position = Vector3.MoveTowards(
-            transform.position,
+        Vector3 currentImpactPosition =
+            GetImpactPosition();
+
+        Vector3 nextImpactPosition =
+            Vector3.MoveTowards(
+            currentImpactPosition,
             currentTarget,
             speed * Time.deltaTime
         );
 
+        transform.position +=
+            nextImpactPosition -
+            currentImpactPosition;
 
         if(Vector3.Distance(
-            transform.position,
+            GetImpactPosition(),
             currentTarget
         ) <= arrivalDistance)
         {
@@ -77,7 +85,7 @@ public class ProjectileVisual : MonoBehaviour
     private void FaceTarget(Vector3 destination)
     {
         Vector3 direction =
-            destination - transform.position;
+            destination - GetImpactPosition();
 
         if(direction.sqrMagnitude <= 0.0001f)
             return;
@@ -101,13 +109,17 @@ public class ProjectileVisual : MonoBehaviour
                 localHitNormal
             ).normalized;
 
-        transform.position =
-            destination +
-            hitNormal * surfaceOffset;
-
         transform.rotation =
             Quaternion.LookRotation(-hitNormal) *
             Quaternion.Euler(stuckRotationOffset);
+
+        Vector3 desiredImpactPosition =
+            destination +
+            hitNormal * surfaceOffset;
+
+        transform.position +=
+            desiredImpactPosition -
+            GetImpactPosition();
 
         transform.SetParent(
             attachmentTarget,
@@ -115,5 +127,13 @@ public class ProjectileVisual : MonoBehaviour
         );
 
         enabled = false;
+    }
+
+
+    private Vector3 GetImpactPosition()
+    {
+        return impactPoint != null
+            ? impactPoint.position
+            : transform.position;
     }
 }
