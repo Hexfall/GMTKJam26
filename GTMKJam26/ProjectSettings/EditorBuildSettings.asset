@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Intro.unity
     guid: c1d52e3e99c7838478322824b9444347
   - enabled: 1
-    path: Assets/Scenes/FPSController.unity
-    guid: 3553f37381446494c8a9a0c0a5b1726c
+    path: Assets/Scenes/EnvrionmentArtImplementation.unity
+    guid: b1ce76712cfb07346be8b258ec9074f6
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
