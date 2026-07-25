@@ -302,8 +302,7 @@ public class WeaponController : MonoBehaviour
     private void MissedShot()
     {
         ResetCombo();
-
-
+        
         Debug.Log(
             "Miss. Combo lost."
         );
