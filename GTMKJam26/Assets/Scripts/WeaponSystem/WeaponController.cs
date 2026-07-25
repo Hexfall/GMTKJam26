@@ -34,6 +34,7 @@ public class WeaponController : MonoBehaviour
     [Header("Visuals")]
     [SerializeField] private ProjectileVisual projectilePrefab;
     [SerializeField] private Transform muzzlePoint;
+    [SerializeField] private GameObject chargeFingers;
     [SerializeField] private float initialImpulse = 0.1f;
     [SerializeField] private float impulseMultiplier = 1.1f;
 
@@ -60,6 +61,8 @@ public class WeaponController : MonoBehaviour
     private CinemachineImpulseSource impulseSource;
 
     private float impulseStrength;
+
+    private Renderer[] chargeFingerRenderers;
 
 
     // Prevents starting actions while weapon is already busy
@@ -143,6 +146,18 @@ public class WeaponController : MonoBehaviour
         lastFireTry = coyoteTime;
         impulseSource = GetComponent<CinemachineImpulseSource>();
         impulseStrength = initialImpulse;
+
+        if(chargeFingers != null)
+        {
+            chargeFingers.SetActive(true);
+
+            chargeFingerRenderers =
+                chargeFingers.GetComponentsInChildren<Renderer>(
+                    true
+                );
+        }
+
+        SetChargeFingersVisible(false);
     }
 
 
@@ -194,6 +209,7 @@ public class WeaponController : MonoBehaviour
 
         remainingChargeTime = currentChargeDuration;
 
+        SetChargeFingersVisible(true);
 
         PlayChargeAnimation();
         weaponSFX.PlayReloadSound();
@@ -232,6 +248,7 @@ public class WeaponController : MonoBehaviour
 
         remainingChargeTime = 0;
 
+        SetChargeFingersVisible(false);
         PlayShootAnimation();
         weaponSFX.PlayShootSound();
         
@@ -259,12 +276,23 @@ public class WeaponController : MonoBehaviour
 
 
         Vector3 targetPoint;
+        Transform attachmentTarget = null;
+        Vector3 hitNormal = -ray.direction;
 
 
 
         if(hitSomething)
         {
             targetPoint = hit.point;
+            hitNormal = hit.normal;
+
+            Damageable damageable =
+                hit.collider.GetComponentInParent<Damageable>();
+
+            attachmentTarget =
+                damageable != null
+                ? damageable.transform
+                : hit.collider.transform;
 
 
             Debug.Log(
@@ -293,7 +321,11 @@ public class WeaponController : MonoBehaviour
 
 
 
-        SpawnProjectileVisual(targetPoint);
+        SpawnProjectileVisual(
+            targetPoint,
+            attachmentTarget,
+            hitNormal
+        );
     }
 
 
@@ -410,6 +442,7 @@ public class WeaponController : MonoBehaviour
 
         isFastReloading = true;
 
+        SetChargeFingersVisible(true);
 
 
         PlayFastReloadAnimation();
@@ -496,11 +529,29 @@ public class WeaponController : MonoBehaviour
         SetAnimationTrigger(ComboMissTrigger);
     }
 
+    private void SetChargeFingersVisible(bool isVisible)
+    {
+        if(chargeFingerRenderers == null)
+            return;
+
+        foreach(Renderer fingerRenderer in chargeFingerRenderers)
+        {
+            if(fingerRenderer != null)
+            {
+                fingerRenderer.enabled = isVisible;
+            }
+        }
+    }
+
     // ==========================
     // PROJECTILE VISUAL (might be deleted)
     // ==========================
 
-    private void SpawnProjectileVisual(Vector3 target)
+    private void SpawnProjectileVisual(
+        Vector3 target,
+        Transform attachmentTarget,
+        Vector3 hitNormal
+    )
     {
         if(projectilePrefab == null)
             return;
@@ -509,10 +560,14 @@ public class WeaponController : MonoBehaviour
             Instantiate(
                 projectilePrefab,
                 muzzlePoint.position,
-                Quaternion.identity
+                muzzlePoint.rotation
             );
 
 
-        projectile.Initialize(target);
+        projectile.Initialize(
+            target,
+            attachmentTarget,
+            hitNormal
+        );
     }
 }
