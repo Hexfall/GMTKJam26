@@ -42,6 +42,9 @@ public class Cooldown : MonoBehaviour
             return;
         }
 
+        if(weaponController.IsOpportunityWindowActive &&
+           !weaponController.IsOpportunityWindowPaused)
+            return;
 
         dial.gameObject.SetActive(false);
     }
@@ -56,7 +59,7 @@ public class Cooldown : MonoBehaviour
             opportunityDial.gameObject.SetActive(true);
 
             opportunityDial.fillAmount =
-                weaponController.OpportunityProgress;
+                1 - weaponController.OpportunityProgress;
 
             return;
         }
