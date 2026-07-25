@@ -23,6 +23,7 @@ public class Damageable : MonoBehaviour
 
     public void PlayerDeath()
     {
+        Cursor.visible = true;
         SceneManager.LoadScene(0);
     }
 }
