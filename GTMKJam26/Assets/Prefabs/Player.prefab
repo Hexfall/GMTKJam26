@@ -506,10 +506,7 @@ MonoBehaviour:
   reloadClip: {fileID: 8300000, guid: b60fc766976f25a439685de0e6b2bea6, type: 3}
   fastReloadClip: {fileID: 8300000, guid: 8f47dd6e8ae3ba547b6089c6fd1a8c5e, type: 3}
   shootClips:
-  - {fileID: 8300000, guid: 9f2dd97a8cc371b47a68924c4303cbf6, type: 3}
-  - {fileID: 8300000, guid: 4b4788373686b1241a460ced5ddc6355, type: 3}
-  - {fileID: 8300000, guid: 9ca5b5c6ec2d85b41b9a1681d078cd72, type: 3}
-  - {fileID: 8300000, guid: b277b655cfd17ac43a9da12ed7717358, type: 3}
+  - {fileID: 8300000, guid: f4f351f8247a04f4fa7760ffc7e60ef0, type: 3}
   reloadVolume: 0.754
   shootVolume: 1
   minimumShootPitch: 0.97
