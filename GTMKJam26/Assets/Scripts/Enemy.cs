@@ -3,6 +3,9 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+    private static readonly int StateParameter =
+        Animator.StringToHash("State");
+
     public enum AgentStatus
     {
         Idle,
@@ -18,37 +21,45 @@ public class Enemy : MonoBehaviour
         get => _status;
         set
         {
+            if (_status == value)
+                return;
+
             _status = value;
+
+            if (animator != null)
+                animator.SetInteger(StateParameter, (int)value);
+
             switch (value)
             {
                 case AgentStatus.Idle:
-                    // TODO: Play Idle animation
                     break;
                 case AgentStatus.Hunting:
-                    // TODO: Play Walking animation
+                    ResumeMoving();
                     break;
                 case  AgentStatus.Attacking:
                     attackTime = 0.0f;
-                    // TODO: Play Attack animation
                     // AUDIO TODO: play start of attack audio
                     break;
                 case AgentStatus.Staggered:
                     staggeredTime = 0.0f;
-                    // TODO: Play Stagger animation
                     // AUDIO TODO: Play start of "take damage" audio
                     break;
                 case AgentStatus.Dead:
-                    // TODO: Play death animation
                     // AUDIO TODO: Play death audio
                     break;
                 default:
                     break;
             }
+
             if (value != AgentStatus.Hunting)
-                agent.SetDestination(transform.position);
+                StopMoving();
+
             LogStatus();
         }
     }
+
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
     
     [Header("Hunting")]
     private GameObject player;
@@ -71,6 +82,12 @@ public class Enemy : MonoBehaviour
         attackRangeSqr = attackRange * attackRange;
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
+
+        if (animator == null)
+            animator = GetComponentInChildren<Animator>();
+
+        if (animator != null)
+            animator.SetInteger(StateParameter, (int)Status);
     }
 
     public void HuntPlayer()
@@ -134,13 +151,41 @@ public class Enemy : MonoBehaviour
 
     public void Damage()
     {
+        if (Status == AgentStatus.Dead)
+            return;
+
         if (Status != AgentStatus.Attacking)
             Status = AgentStatus.Staggered;
     }
     
     public void Die()
     {
+        if (Status == AgentStatus.Dead)
+            return;
+
+        Status = AgentStatus.Dead;
+    }
+
+    public void FinishDeath()
+    {
         Destroy(gameObject);
+    }
+
+    private void StopMoving()
+    {
+        if (agent == null || !agent.isOnNavMesh)
+            return;
+
+        agent.isStopped = true;
+        agent.ResetPath();
+    }
+
+    private void ResumeMoving()
+    {
+        if (agent == null || !agent.isOnNavMesh)
+            return;
+
+        agent.isStopped = false;
     }
 
     private void LogStatus() => Debug.Log($"Enemy '{gameObject.name}' is now in {Status} state.");
