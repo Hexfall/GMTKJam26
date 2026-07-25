@@ -1,0 +1,46 @@
+{
+    "version": 1,
+    "name": "CinematicControls",
+    "maps": [
+        {
+            "name": "Skip",
+            "id": "152666d2-dccb-45cd-a8e4-2d6db2f75ef3",
+            "actions": [
+                {
+                    "name": "Skip",
+                    "type": "Value",
+                    "id": "2d88dde4-46c0-43f0-945c-86c1eb68c9dc",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f960e934-ded7-4106-a099-bc13b2f4f577",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "41f50689-fdf1-4e5e-9d32-c732ae4fe742",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
