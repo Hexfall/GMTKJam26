@@ -10,7 +10,7 @@ public class WeaponController : MonoBehaviour
     [Header("Charge Settings")]
     [SerializeField] private float initialChargeDuration = 3f;
     [SerializeField] private float minimumChargeDuration = 0.25f;
-    [SerializeField] private float chargeReductionFactor = 0.66f;
+    [SerializeField] [Range(0, 1)] private float chargeReductionFactor = 0.66f;
 
 
     [Header("Opportunity Window")]
