@@ -916,6 +916,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: snailien
       objectReference: {fileID: 0}
+    - target: {fileID: 1025707568111398909, guid: c8caab92d20f029499caf8b40873d97f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: dfd46b96686963d43ba8a725f7593ed6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
