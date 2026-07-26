@@ -48,6 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Collectable
   onlyTriggerOnPlayer: 1
+  collectSfx: {fileID: 8300000, guid: 183090706ac49d949b039ecf42b60da2, type: 3}
+  collectSfxVolume: 1
   onCollect:
     m_PersistentCalls:
       m_Calls:
