@@ -276,7 +276,6 @@ MonoBehaviour:
   initialImpulse: 0.3
   impulseMultiplier: 1.1
   maxImpulse: 0.8
-  impulseStrength: 0
 --- !u!82 &-7096953104165895114
 AudioSource:
   m_ObjectHideFlags: 0
@@ -697,6 +696,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20254c5fdaa41f6429302eaa0aacd934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Damageable
+  health: 100
+  heals: 1
+  healingRate: 2.5
+  healingDelay: 5
   OnDamage:
     m_PersistentCalls:
       m_Calls:
@@ -727,7 +730,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  health: 100
+  OnStartHealing:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFinishHealing:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8877000001
 MonoBehaviour:
   m_ObjectHideFlags: 0
