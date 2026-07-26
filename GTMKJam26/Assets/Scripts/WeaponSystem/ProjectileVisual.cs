@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ProjectileVisual : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class ProjectileVisual : MonoBehaviour
     [SerializeField] private Transform impactPoint;
     [SerializeField] private Vector3 flightRotationOffset;
     [SerializeField] private Vector3 stuckRotationOffset;
-
+    [SerializeField] public UnityEvent onImpact;
 
     public void Initialize(
         Vector3 destination,
@@ -126,6 +127,7 @@ public class ProjectileVisual : MonoBehaviour
             true
         );
 
+        onImpact?.Invoke();
         enabled = false;
     }
 
