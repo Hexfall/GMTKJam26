@@ -253,10 +253,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b217472fdddaf40cf942642dd29625bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponController
-  initialChargeDuration: 3
-  minimumChargeDuration: 0.25
-  chargeReductionFactor: 0.66
-  opportunityWindowDuration: 1
+  initialChargeDuration: 1.2
+  minimumChargeDuration: 0.02
+  chargeReductionFactor: 0.874
+  opportunityWindowDuration: 1.5
   playerCamera: {fileID: 3724873497047310110}
   shootDistance: 100
   sphereCastRadius: 0.05
@@ -264,7 +264,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   input: {fileID: 1701675617410822211}
-  coyoteTime: 0.15
+  coyoteTime: 0.125
   damage: 20
   weaponAnimator: {fileID: 1185494794991552705}
   fingerAnimator: {fileID: 4918041267803271711}
@@ -274,9 +274,8 @@ MonoBehaviour:
   muzzlePoint: {fileID: 4515540254290941679}
   chargeFingers: {fileID: 7248555380455490751}
   initialImpulse: 0.3
-  impulseMultiplier: 1.1
-  maxImpulse: 0.8
-  impulseStrength: 0
+  impulseMultiplier: 1.15
+  maxImpulse: 0.9
 --- !u!82 &-7096953104165895114
 AudioSource:
   m_ObjectHideFlags: 0
@@ -697,6 +696,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20254c5fdaa41f6429302eaa0aacd934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Damageable
+  health: 100
+  heals: 1
+  healingRate: 2.5
+  healingDelay: 5
   OnDamage:
     m_PersistentCalls:
       m_Calls:
@@ -727,7 +730,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  health: 100
+  OnStartHealing:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFinishHealing:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8877000001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -742,10 +750,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSFX
   audioSource: {fileID: 8877000002}
   painClips:
-  - {fileID: 8300000, guid: e0f0d2cdda495794bacd2778a3938277, type: 3}
-  - {fileID: 8300000, guid: cc5530913b135ea4793a063cd434c52f, type: 3}
-  - {fileID: 8300000, guid: ad73ccd0751aee64a9b4db7e7f865d6a, type: 3}
-  deathClip: {fileID: 8300000, guid: af02a0e152c8d4f428393eed1fb1d37b, type: 3}
+  - {fileID: 8300000, guid: c8f0177e06f760f45984e343db7b3e08, type: 3}
+  - {fileID: 8300000, guid: abd423d4e75474c4e958e2ec848c506d, type: 3}
+  deathClip: {fileID: 8300000, guid: 7737996df4d785d4cb6c1cb51bdcde0f, type: 3}
   painVolume: 0.908
   deathVolume: 1
   minimumPainPitch: 0.95
@@ -927,8 +934,8 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6398019032130686982}
-  m_Enabled: 1
-  m_CastShadows: 1
+  m_Enabled: 0
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -1278,6 +1285,10 @@ PrefabInstance:
     - target: {fileID: 6594405845913351654, guid: ecfd6e1d2c2dc014989a78cd20fa2abd, type: 3}
       propertyPath: m_Name
       value: Charge Fingers
+      objectReference: {fileID: 0}
+    - target: {fileID: 6845068989650442820, guid: ecfd6e1d2c2dc014989a78cd20fa2abd, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7123279593838081574, guid: ecfd6e1d2c2dc014989a78cd20fa2abd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1659,6 +1670,18 @@ PrefabInstance:
     - target: {fileID: 2038542946004411047, guid: 9c489a8547f4d9e4387da15a4ff82c81, type: 3}
       propertyPath: Target.CustomLookAtTarget
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5125927421667327785, guid: 9c489a8547f4d9e4387da15a4ff82c81, type: 3}
+      propertyPath: ReactionSettings.m_NoiseOffsets.x
+      value: 7.466675
+      objectReference: {fileID: 0}
+    - target: {fileID: 5125927421667327785, guid: 9c489a8547f4d9e4387da15a4ff82c81, type: 3}
+      propertyPath: ReactionSettings.m_NoiseOffsets.y
+      value: 724.6571
+      objectReference: {fileID: 0}
+    - target: {fileID: 5125927421667327785, guid: 9c489a8547f4d9e4387da15a4ff82c81, type: 3}
+      propertyPath: ReactionSettings.m_NoiseOffsets.z
+      value: -37.699585
       objectReference: {fileID: 0}
     - target: {fileID: 8762286023885395077, guid: 9c489a8547f4d9e4387da15a4ff82c81, type: 3}
       propertyPath: m_Name

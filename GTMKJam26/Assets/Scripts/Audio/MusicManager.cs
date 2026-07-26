@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class MusicManager : MonoBehaviour
 {
     private const string MainMenuSceneName = "Main Menu";
-    private const string GameplaySceneName = "FPSController";
+    private const string GameplaySceneName = "EnvrionmentArtImplementation";
 
     private static MusicManager instance;
 
