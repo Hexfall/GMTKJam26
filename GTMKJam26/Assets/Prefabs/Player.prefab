@@ -750,10 +750,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSFX
   audioSource: {fileID: 8877000002}
   painClips:
-  - {fileID: 8300000, guid: e0f0d2cdda495794bacd2778a3938277, type: 3}
-  - {fileID: 8300000, guid: cc5530913b135ea4793a063cd434c52f, type: 3}
-  - {fileID: 8300000, guid: ad73ccd0751aee64a9b4db7e7f865d6a, type: 3}
-  deathClip: {fileID: 8300000, guid: af02a0e152c8d4f428393eed1fb1d37b, type: 3}
+  - {fileID: 8300000, guid: c8f0177e06f760f45984e343db7b3e08, type: 3}
+  - {fileID: 8300000, guid: abd423d4e75474c4e958e2ec848c506d, type: 3}
+  deathClip: {fileID: 8300000, guid: 7737996df4d785d4cb6c1cb51bdcde0f, type: 3}
   painVolume: 0.908
   deathVolume: 1
   minimumPainPitch: 0.95
