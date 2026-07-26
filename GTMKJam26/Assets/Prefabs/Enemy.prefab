@@ -76,10 +76,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   animator: {fileID: 4360108091755186186}
-  staggerDuration: 1
-  attackRange: 5
+  staggerDuration: 0.72
+  attackRange: 3.58
   damageDealt: 20
-  attackDuration: 2
+  attackDuration: 0.94
 --- !u!114 &7972928904343922990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,6 +92,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20254c5fdaa41f6429302eaa0aacd934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Damageable
+  health: 100
+  heals: 0
+  healingRate: 2.5
+  healingDelay: 5
   OnDamage:
     m_PersistentCalls:
       m_Calls:
@@ -122,7 +126,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  health: 100
+  OnStartHealing:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFinishHealing:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &6677000001
 MonoBehaviour:
   m_ObjectHideFlags: 0
