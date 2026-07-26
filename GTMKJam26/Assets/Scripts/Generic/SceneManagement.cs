@@ -32,4 +32,9 @@ public class SceneManagement : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.sceneCountInBuildSettings - 1);
     }
+
+    public static void MainMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
 }
